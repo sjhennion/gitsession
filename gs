@@ -44,7 +44,7 @@ save_session() {
 
 	#build our commit message with the new commit id
 	msg="Commit $commit_id"
-	echo msg
+	echo $msg
 
 	#create the commit
 	git add .
