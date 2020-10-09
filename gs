@@ -23,7 +23,7 @@ create_session() {
 	git checkout -b gs-"$b_id"
 
 	#setup our session state
-	echo 1 > commit_id
+	echo 0 > commit_id
 	git log --format="%H" -n 1 > start_hash
 
 	#push the initial commit 
@@ -37,7 +37,11 @@ save_session() {
 		echo "No session when saving, please create session first"
 	fi
 
-	#build our commit message with the current commit id
+	#increment commit_id
+	commit_id=$(($commit_id+1))
+	echo $commit_id > commit_id
+
+	#build our commit message with the new commit id
 	commit_id=$(cat commit_id)
 	echo $commit_id
 	msg="Commit $commit_id"
@@ -45,10 +49,6 @@ save_session() {
 	#create the commit
 	git add .
 	git commit -m "$msg"
-
-	#increment commit_id
-	commit_id=$(($commit_id+1))
-	echo $commit_id > commit_id
 
 	#push changes
 	#git push
