@@ -38,13 +38,13 @@ save_session() {
 	fi
 
 	#increment commit_id
+	commit_id=$(cat commit_id)
 	commit_id=$(($commit_id+1))
 	echo $commit_id > commit_id
 
 	#build our commit message with the new commit id
-	commit_id=$(cat commit_id)
-	echo $commit_id
 	msg="Commit $commit_id"
+	echo msg
 
 	#create the commit
 	git add .
