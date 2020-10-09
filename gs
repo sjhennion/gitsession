@@ -61,6 +61,17 @@ join_session() {
 	fi
 	msg="Joining $1"
 	echo "$msg"
+
+	pull_msg=$(git pull)
+	no_update_pull_msg="Already up to date."
+	while true; do
+		echo ".$pull_msg."
+		echo ".$no_update_pull_msg."
+		if [ pull_msg != no_update_pull_msg ]; then
+			echo "Updates available!"
+		fi
+		sleep 1;
+	done
 }
 
 main $1 $2
