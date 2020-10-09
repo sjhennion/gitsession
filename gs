@@ -18,23 +18,18 @@ create_session() {
 		exit 0
 	fi
 
+	#generate our branch id and checkout our branch
 	b_id=$(uuidgen | cut -c1-8)
-
-	echo "$b_id"
-
 	git checkout -b gs-"$b_id"
 
+	#setup our session state
 	echo 1 > commit_id
+	git log --format="%H" -n 1 > start_hash
 
-	# Somehow detect changes
-
-	# On change:
-
-	#git add . 
-
-	#git commit -m "$(echo commit_id)"
-
-	#git push
+	#push the initial commit 
+	git add . 
+	git commit -m "Initial commit for branch $b_id"
+	#git push --set-upstream origin gs-"$b_id"
 }
 
 save_session() {
@@ -42,15 +37,21 @@ save_session() {
 		echo "No session when saving, please create session first"
 	fi
 
+	#build our commit message with the current commit id
 	commit_id=$(cat commit_id)
 	echo $commit_id
 	msg="Commit $commit_id"
 
+	#create the commit
 	git add .
 	git commit -m "$msg"
 
+	#increment commit_id
 	commit_id=$(($commit_id+1))
 	echo $commit_id > commit_id
+
+	#push changes
+	#git push
 }
 
 join_session() {
